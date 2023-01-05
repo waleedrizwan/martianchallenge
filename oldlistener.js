@@ -1,8 +1,10 @@
 const { io } = require("socket.io-client");
 const socket = io("ws://localhost:3000");
-const syllables = ["B", "K", "L", "R", "Z", '-'];
+const syllables = ["B", "K", "L", "R", "Z"];
 
 let currentWord = "";
+let lastReceivedTime = Date.now();
+const syllableDuration = 100; // duration of one syllable in milliseconds
 
 // Martian words and their translations
 const dictionary = {
@@ -21,9 +23,9 @@ const dictionary = {
 
 // Check if the current word is in the dictionary
 const checkWord = () => {
-  if (currentWord in dictionary) {    
-    process.stdout.write(dictionary[currentWord]);
-    // console.log(dictionary[currentWord])
+  if (currentWord in dictionary) {
+    console.log(`Translated word: ${dictionary[currentWord]}`);
+    process.stdout.write(dictionary[currentWord] + " ");
     currentWord = "";
   }
 };
@@ -31,7 +33,16 @@ const checkWord = () => {
 // listen for messages from the server
 syllables.forEach((s) => {
   socket.on(s, (...args) => {
+    // console.log(`received   ${s}   at   ${Date.now()}`);
+
+    const currentTime = Date.now();
+    const elapsedTime = currentTime - lastReceivedTime;
+    lastReceivedTime = currentTime;
+    for (let i = 0; i < elapsedTime / syllableDuration; i++) {
+      currentWord += "-";
+    }
     currentWord += s;
-    checkWord();    
+    checkWord();
+    console.log(`current word ${currentWord}`);
   });
 });

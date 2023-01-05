@@ -5,21 +5,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-// Martian words and their translations
-const dictionary = {
-  "B--B-K---Z": "food",
-  BBKZ: "vomit",
-  "B-K-RKK---ZZZ": "sleep",
-  "BKR-KK-ZZZ": "philosophy",
-  "ZZ-KK": "need",
-  "KK-ZZ": "hate",
-  "L-R-Z": "I",
-  "Z-R-L": "you",
-  ZZKK: "rejoice",
-  "----------": ".",
-};
-
-// testing
+// For Testing
 const words = [
   "B--B-K---Z",
   "BBKZ",
@@ -30,9 +16,11 @@ const words = [
   "L-R-Z",
   "Z-R-L",
   "ZZKK",
-  "----------"
-
+  "-----",
+  "----------",
 ];
+
+const syllables = ["B", "K", "L", "R", "Z", "-"];
 
 io.on("connection", (socket) => {
   console.log("a user connected");
@@ -45,28 +33,25 @@ server.listen(3000, () => {
   console.log("listening on *:3000");
 });
 
-const syllables = ["B", "K", "L", "R", "Z", "-"];
+setInterval(
+  () => {
+    const s = syllables[Math.floor(Math.random() * syllables.length)];
 
-setInterval(() => {
-  
-  // const s = syllables[Math.floor(Math.random() * syllables.length)];
-  // console.log('Emitting ', s);
+    // io.emit(s, {});
+    // console.log("Emitting ", s);
 
-  // if (s != '-') {
-  //   io.emit(s, {});
-  // }
+    // For Testing
+    words.forEach((word) => {
+      setTimeout(() => {
+        word.split("").forEach((char) => {
+          io.emit(char, {});
+        });
+      }, 100);
+    });
+    // end of testing block
+  },
+  // delay in milliseconds
+  200
+);
 
-  // io.emit(s, {})
 
-  // For Testing 
-  words.forEach((word) => {
-    setTimeout(() => {
-      word.split("").forEach((char) =>  {
-        io.emit(char, {})
-      });
-
-    }, 100);
-
-          
-  });
-}, 200);
