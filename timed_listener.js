@@ -24,8 +24,7 @@ const dictionary = {
 // Check if the current word is in the dictionary
 const checkWord = () => {
   if (currentWord in dictionary) {
-    console.log(`Translated word: ${dictionary[currentWord]}`);
-    process.stdout.write(dictionary[currentWord] + " ");
+    process.stdout.write(dictionary[currentWord]);
     currentWord = "";
   }
 };
@@ -34,7 +33,6 @@ const checkWord = () => {
 syllables.forEach((s) => {
   socket.on(s, (...args) => {
     // console.log(`received   ${s}   at   ${Date.now()}`);
-
     const currentTime = Date.now();
     const elapsedTime = currentTime - lastReceivedTime;
     lastReceivedTime = currentTime;
