@@ -16,7 +16,7 @@ const dictionary = {
   "Z-R-L": "you",
   ZZKK: "rejoice",
   "-----": " ", // space between words
-  "----------": ".\n", // adds period at end of sentence and new line
+  "----------": ".", // adds period at end of sentence and new line
 };
 
 // Check if the current word is in the dictionary

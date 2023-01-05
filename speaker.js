@@ -5,21 +5,6 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-// For Testing
-const words = [
-  "B--B-K---Z",
-  "BBKZ",
-  "B-K-RKK---ZZZ",
-  "BKR-KK-ZZZ",
-  "ZZ-KK",
-  "KK-ZZ",
-  "L-R-Z",
-  "Z-R-L",
-  "ZZKK",
-  "-----",
-  "----------",
-];
-
 const syllables = ["B", "K", "L", "R", "Z", "-"];
 
 io.on("connection", (socket) => {
@@ -33,25 +18,39 @@ server.listen(3000, () => {
   console.log("listening on *:3000");
 });
 
+// For Testing
+const sentence1 = [
+  "L-R-Z",
+  "-----",
+  "ZZ-KK",
+  "-----",
+  "B--B-K---Z",
+  "----------",
+]; // I need food.
+const sentence2 = [
+  "L-R-Z",
+  "-----",
+  "ZZ-KK",
+  "-----",
+  "B-K-RKK---ZZZ",
+  "----------",
+]; // I need sleep.
+const sentence3 = ["L-R-Z", "-----", "KK-ZZ", "-----", "Z-R-L", "----------"]; // I hate you.
+
+const testList = [sentence1, sentence2, sentence3];
+
 setInterval(
   () => {
-    const s = syllables[Math.floor(Math.random() * syllables.length)];
-
-    // io.emit(s, {});
-    // console.log("Emitting ", s);
-
-    // For Testing
-    words.forEach((word) => {
-      setTimeout(() => {
-        word.split("").forEach((char) => {
-          io.emit(char, {});
-        });
-      }, 100);
+    testList.forEach((sentence) => {
+      sentence.forEach((word) => {
+        setTimeout(() => {
+          word.split("").forEach((char) => {
+            io.emit(char, {});
+          });
+        }, 100);
+      });
     });
-    // end of testing block
   },
   // delay in milliseconds
-  200
+  10000
 );
-
-
