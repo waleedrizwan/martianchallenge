@@ -21,9 +21,10 @@ const dictionary = {
 
 // Check if the current word is in the dictionary
 const checkWord = () => {
-  if (currentWord in dictionary) {    
+  if (currentWord in dictionary) {
+    // print message if in dictionary     
     process.stdout.write(dictionary[currentWord]);
-    // console.log(dictionary[currentWord])
+    // reset current word 
     currentWord = "";
   }
 };
